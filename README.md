@@ -1,0 +1,106 @@
+# Beijing Memory Map | 北京街道故事地图
+
+An interactive geospatial visualization platform designed to archive and visualize urban memories across Beijing's administrative divisions.
+
+[English](#introduction) | [中文说明](#项目简介)
+
+---
+
+## Introduction | 项目简介
+
+<table width="100%">
+<tr>
+<td width="50%">
+<strong>Beijing Memory Map</strong> is a data-driven visualization tool that transforms qualitative urban narratives into an interactive spatial experience. Utilizing Python, Folium, and Pandas, the project maps personal and community stories onto Beijing's street-level (township) administrative boundaries, fostering a deeper connection between citizens and their urban environment.
+</td>
+<td width="50%">
+<strong>北京街道故事地图</strong> 是一个数据驱动的可视化工具，旨在将用户对于城市的记忆转化为交互式的界面。本项目利用 Python、Folium 和 Pandas，将个人与社区故事映射到北京的街道（乡镇）级行政边界上，增强市民与城市环境之间的情感连接。
+</td>
+</tr>
+</table>
+
+---
+
+## Core Features | 核心功能
+
+| Feature | Description | 描述 |
+| :--- | :--- | :--- |
+| **Dynamic Rendering** | Real-time map generation based on Excel data updates. | 基于 Excel 数据更新的实时地图生成。 |
+| **Thematic Styling** | Choropleth mapping where color intensity reflects "Fate" (connection) scores. | 专题地图样式，颜色深浅反映“缘分”（连接）分值。 |
+| **Rich Interaction** | Hover for metadata summaries; click for comprehensive narratives. | 悬停显示摘要元数据；点击查看完整叙述。 |
+| **Privacy Focused** | Fully local execution ensuring data sovereignty and privacy. | 完全本地执行，确保数据主权与隐私。 |
+
+---
+
+## System Architecture | 系统结构
+
+- **Data Layer**: Structured storage in Excel/CSV format for intuitive content management.
+
+  **数据层**：采用 Excel/CSV 格式进行结构化存储，便于内容管理。
+- **Processing Layer**: Python-based pipeline for data cleaning, GeoJSON merging, and spatial join.
+
+  **处理层**：基于 Python 的数据清洗、GeoJSON 合并及空间关联处理流水线。
+- **Visualization Layer**: Folium (Leaflet.js) powered interactive HTML interface.
+
+  **展示层**：基于 Folium (Leaflet.js) 的交互式 HTML 界面。
+
+---
+
+## Installation | 安装
+
+```bash
+# Clone the repository
+git clone https://github.com/userAnabolix/Beijing-memory-map.git
+cd Beijing-memory-map
+
+# Install dependencies
+pip install -r requirements.txt
+```
+
+## Configuration | 数据配置
+
+Due to copyright and privacy constraints, original geospatial and personal narrative data are excluded from this repository. You must provide your own data to run the pipeline.
+由于版权与隐私限制，原有的地理空间数据与个人叙事数据不包含在本仓库中。您需自行配置数据以运行。
+
+### 1. Spatial Data (GeoJSON)
+- Create a directory named `geojson_data` in the project root.
+- Place your street/township level GeoJSON files (`.json`) inside the directory.
+- **Crucial**: Coordinates must be strictly in **WGS84 (EPSG:4326)**. Using GCJ-02 or BD-09 will result in significant map offset.
+
+### 2. Tabular Data (Narratives)
+- Use the provided `beijing_streets_data_template.csv` as a schema reference.
+- Save your populated data as `beijing_streets_data.xlsx` in the project root. The pipeline will automatically prioritize the Excel file over the CSV template.
+
+## Usage | 运行指南
+
+Execute the rendering script to generate the HTML map:
+运行渲染脚本以生成 HTML 地图：
+
+```bash
+python beijing_streets_final_template.py
+```
+
+The output `beijing_streets_final.html` will be generated in the root directory and opened via your default web browser.
+
+---
+
+## Technical Specifications | 技术规范
+
+- **Coordinate System**: WGS84 (EPSG:4326).
+
+  **坐标系**：WGS84 (EPSG:4326)。
+- **Data Granularity**: Street/Township level (342+ unique administrative units).
+
+  **数据粒度**：街道/乡镇级（342+ 唯一行政单元）。
+- **UI/UX**: Custom CSS injection for responsive tooltips and scrollable popups.
+
+  **用户体验**：自定义 CSS 注入，支持响应式工具提示及可滚动弹出窗。
+
+---
+
+## Disclaimer | 声明
+
+- **Data Privacy**: This repository provides a template and logic. Personal story data is excluded from version control.
+  **隐私声明**：本仓库提供模板，文字内容需自行输入。
+- **Licensing**: GeoJSON datasets may be subject to third-party licensing agreements (e.g., AreaCity).
+  **版权声明**：GeoJSON 数据集需遵守第三方许可协议。
