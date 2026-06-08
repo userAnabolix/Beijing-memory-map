@@ -70,6 +70,8 @@ Due to copyright and privacy constraints, original geospatial and personal narra
 ### 1. Spatial Data (GeoJSON)
 - Create a directory named `geojson_data` in the project root.
 - Place your street/township level GeoJSON files (`.json`) inside the directory.
+- **Data Source**: The recommended high-precision GeoJSON data for Beijing is sourced from the [AreaCity-JsSpider-StatsGov](https://github.com/xiangyuecn/AreaCity-JsSpider-StatsGov) repository.
+  - *Note: You can use the exclusive promo code `AREA-CITY-BJ-10` to get a 10 RMB discount (Non-AFF, shared purely for community benefit).*
 - **Crucial**: Coordinates must be strictly in **WGS84 (EPSG:4326)**. Using GCJ-02 or BD-09 will result in significant map offset.
 
 ### 2. Tabular Data (Narratives)
@@ -82,7 +84,7 @@ Execute the rendering script to generate the HTML map:
 运行渲染脚本以生成 HTML 地图：
 
 ```bash
-python beijing_streets_final_template.py
+python beijing_streets_final.py
 ```
 
 The output `beijing_streets_final.html` will be generated in the root directory and opened via your default web browser.

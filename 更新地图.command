@@ -37,6 +37,7 @@ except ImportError as e:
 echo "🗺️  正在生成地图..."
 python3 beijing_streets_final.py
 
+
 # 等待用户查看结果
 echo ""
 echo "========================================"

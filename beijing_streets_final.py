@@ -20,38 +20,37 @@ import pandas as pd
 import folium
 from folium import plugins
 import json
-import os
 import glob
 import html
-import sys
-from datetime import datetime
 import math
 
 class BeijingStreetsFinalMap:
-    def __init__(self, excel_file='beijing_streets_data.xlsx', 
-                 geojson_folder=None):
+    def __init__(self, excel_file='beijing_streets_data.xlsx'):
         """
-        初始化最终版本地图生成器
+        Initialize the map generator.
         
         Args:
-            excel_file: Excel数据文件路径（用户随时修改）
-            geojson_folder: GeoJSON数据文件夹路径（购买的数据），如果为None则使用相对路径
+            excel_file: Target tabular data file. Fallbacks to CSV template if missing.
         """
         self.excel_file = excel_file
         
-        # 如果未提供geojson_folder，使用相对路径
-        if geojson_folder is None:
-            # 获取当前脚本所在目录
-            import os
-            script_dir = os.path.dirname(os.path.abspath(__file__))
-            # 构建相对路径
-            self.geojson_folder = os.path.join(
-                script_dir, 
-                '北京和区级-wgs84-拆分-20260531-221824',
-                '北京全部乡镇-wgs84-拆分-20260531-221810'
-            )
+        import os
+        script_dir = os.path.dirname(os.path.abspath(__file__))
+        
+        # Priority 1: Private local path (For original author)
+        private_path = os.path.join(
+            script_dir, 
+            '北京和区级-wgs84-拆分-20260531-221824',
+            '北京全部乡镇-wgs84-拆分-20260531-221810'
+        )
+        
+        # Priority 2: Public template path (For GitHub users)
+        public_path = os.path.join(script_dir, 'geojson_data')
+        
+        if os.path.exists(private_path):
+            self.geojson_folder = private_path
         else:
-            self.geojson_folder = geojson_folder
+            self.geojson_folder = public_path
         self.stories_data = None
         self.geojson_data = None
         self.map = None
@@ -105,57 +104,60 @@ class BeijingStreetsFinalMap:
     
     def check_data_files(self):
         """
-        检查数据文件状态
+        Verify the existence of required data files and directories.
         """
-        print("=" * 70)
-        print("北京街道故事地图 - 数据检查")
-        print("=" * 70)
+        print("[INFO] Verifying data dependencies...")
         
-        # 检查Excel文件
-        if not os.path.exists(self.excel_file):
-            print(f"❌ Excel文件不存在: {self.excel_file}")
-            print("   请先运行 create_beijing_excel.py 创建模板")
+        # Check Excel/CSV data
+        if not os.path.exists(self.excel_file) and not os.path.exists('beijing_streets_data_template.csv'):
+            print(f"[ERROR] Tabular data missing: Please provide {self.excel_file} or beijing_streets_data_template.csv.")
             return False
         
-        print(f"✅ Excel文件: {self.excel_file}")
-        
-        # 检查GeoJSON文件夹
-        if not os.path.exists(self.geojson_folder):
-            print(f"❌ GeoJSON文件夹不存在: {self.geojson_folder}")
-            print("   请确认购买的数据文件夹路径")
+        # Check GeoJSON directory
+        if not os.path.exists(self.geojson_folder) or not glob.glob(os.path.join(self.geojson_folder, "*.json")):
+            print(f"[ERROR] Spatial data missing: No GeoJSON files found in '{self.geojson_folder}'.")
+            print("[INFO] Please ensure WGS84 GeoJSON files are present in the designated directory. See README.md for instructions.")
             return False
-        
-        print(f"✅ GeoJSON文件夹: {self.geojson_folder}")
         
         return True
     
     def load_excel_data(self):
         """
-        加载数据（支持 Excel 和 CSV 模板）
+        Load tabular data from Excel or fallback CSV.
         """
-        print("\n📊 加载数据...")
+        print("[INFO] Loading tabular data...")
         
         try:
-            # 自动识别文件格式
+            # Detect and load available data format
             if self.excel_file.endswith('.xlsx'):
                 if os.path.exists(self.excel_file):
                     self.stories_data = pd.read_excel(self.excel_file)
-                    print(f"  ✅ 已加载 Excel 数据: {self.excel_file}")
+                    print(f"[INFO] Loaded Excel dataset: {self.excel_file}")
                 elif os.path.exists('beijing_streets_data_template.csv'):
                     self.stories_data = pd.read_csv('beijing_streets_data_template.csv')
-                    print(f"  ⚠️  未找到 Excel，已加载 CSV 模板数据")
+                    print("[INFO] Excel file not found. Falling back to CSV template: beijing_streets_data_template.csv")
                 else:
-                    raise FileNotFoundError("未找到数据文件 (.xlsx 或 .csv)")
+                    raise FileNotFoundError("Data file not found.")
             else:
                 self.stories_data = pd.read_csv(self.excel_file)
-                print(f"  ✅ 已加载 CSV 数据: {self.excel_file}")
+                print(f"[INFO] Loaded CSV dataset: {self.excel_file}")
             
-            print(f"  ✅ 共计: {len(self.stories_data)} 条记录")
+            print(f"[INFO] Total records loaded: {len(self.stories_data)}")
             
             # 创建字典
             for _, row in self.stories_data.iterrows():
                 street_name = str(row.get('街道名称', '')).strip()
-                fate = int(row.get('缘分', 0))
+                
+                # Robust parsing for 'fate' column
+                raw_fate = row.get('缘分', 0)
+                try:
+                    fate = int(float(raw_fate)) if pd.notna(raw_fate) else 0
+                except ValueError:
+                    fate = 0  # Fallback for non-numeric placeholder texts
+                
+                # Bound checking (0-10)
+                fate = max(0, min(10, fate))
+                
                 summary = str(row.get('简述', '')).strip()
                 story = str(row.get('故事', '')).strip()
                 
