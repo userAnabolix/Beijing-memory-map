@@ -65,18 +65,31 @@ pip install -r requirements.txt
 ## Configuration | 数据配置
 
 Due to copyright and privacy constraints, original geospatial and personal narrative data are excluded from this repository. You must provide your own data to run the pipeline.
-由于版权与隐私限制，原有的地理空间数据与个人叙事数据不包含在本仓库中。您需自行配置数据以运行。
+由于版权限制，北京地图数据不包含在本仓库中。您需自行配置数据以运行。配置方法如下：
 
-### 1. Spatial Data (GeoJSON)
+### 1. Spatial Data (GeoJSON) | 空间数据 (GeoJSON)
 - Create a directory named `geojson_data` in the project root.
+
+  在项目根目录创建一个名为 `geojson_data` 的文件夹。
 - Place your street/township level GeoJSON files (`.json`) inside the directory.
+
+  将街道/乡镇级别的 GeoJSON 文件（`.json`）放入该目录。
 - **Data Source**: The recommended high-precision GeoJSON data for Beijing is sourced from the [AreaCity-JsSpider-StatsGov](https://github.com/xiangyuecn/AreaCity-JsSpider-StatsGov) repository.
   - *Note: You can use the exclusive promo code `AREA-CITY-BJ-10` to get a 10 RMB discount (Non-AFF, shared purely for community benefit).*
+
+  **数据来源**：推荐使用 [AreaCity-JsSpider-StatsGov](https://github.com/xiangyuecn/AreaCity-JsSpider-StatsGov) 仓库提供的高精度北京市 GeoJSON 数据。
+  - *注：您可以使用专属优惠码 `AREA-CITY-BJ-10` 获得 10 元人民币折扣（非推广链接，纯属社区分享）。*
 - **Crucial**: Coordinates must be strictly in **WGS84 (EPSG:4326)**. Using GCJ-02 or BD-09 will result in significant map offset.
 
-### 2. Tabular Data (Narratives)
+  **重要**：坐标系必须严格使用 **WGS84 (EPSG:4326)**。使用 GCJ-02 或 BD-09 将导致地图出现明显偏移。
+
+### 2. Tabular Data (Narratives) | 表格数据（叙述）
 - Use the provided `beijing_streets_data_template.csv` as a schema reference.
+
+  使用提供的 `beijing_streets_data_template.csv` 作为数据格式参考。
 - Save your populated data as `beijing_streets_data.xlsx` in the project root. The pipeline will automatically prioritize the Excel file over the CSV template.
+
+  将填写好的数据保存为 `beijing_streets_data.xlsx`，放在项目根目录。处理流水线会自动优先使用 Excel 文件，而非 CSV 模板。
 
 ## Usage | 运行指南
 
@@ -88,6 +101,7 @@ python beijing_streets_final.py
 ```
 
 The output `beijing_streets_final.html` will be generated in the root directory and opened via your default web browser.
+生成的输出文件 `beijing_streets_final.html` 将保存在项目根目录，并通过系统默认浏览器自动打开。
 
 ---
 
@@ -103,11 +117,3 @@ The output `beijing_streets_final.html` will be generated in the root directory 
 
   **用户体验**：自定义 CSS 注入，支持响应式工具提示及可滚动弹出窗。
 
----
-
-## Disclaimer | 声明
-
-- **Data Privacy**: This repository provides a template and logic. Personal story data is excluded from version control.
-  **隐私声明**：本仓库提供模板，文字内容需自行输入。
-- **Licensing**: GeoJSON datasets may be subject to third-party licensing agreements (e.g., AreaCity).
-  **版权声明**：GeoJSON 数据集需遵守第三方许可协议。
