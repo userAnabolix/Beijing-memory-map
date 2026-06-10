@@ -1,4 +1,4 @@
-# Beijing Memory Map | 北京街道故事地图
+# Beijing Memory Map | 一个人的北京地方志
 
 An interactive geospatial visualization platform designed to archive and visualize urban memories across Beijing's administrative divisions.
 
@@ -16,7 +16,7 @@ An interactive geospatial visualization platform designed to archive and visuali
 Translated with DeepL.com (free version)
 </td>
 <td width="50%">
-<strong>北京街道故事地图</strong> 是一个数据驱动的可视化工具，旨在将用户对于城市的记忆转化为交互式的界面。本项目利用 Python、Folium 和 Pandas，用户可以在表格中输入自己和北京市每个街道的故事，然后自动生成可视化界面。其中，用户可以为每个街道打分，表示与其联系和缘分的深浅，分值越高在地图中的颜色越深。同时用户可以为每个街道撰写简述和故事，鼠标悬置在街道的位置时会弹窗显示街道名称和简述，点击后显示街道名称和故事。
+<strong>一个人的北京地方志</strong> 是一个数据驱动的可视化工具，让用户可以记录自己与北京的故事，将对于城市的记忆转化为交互式的界面。本项目利用 Python、Folium 和 Pandas，用户可以在表格中输入自己和北京市每个街道的故事，然后自动生成可视化界面。其中，用户可以为每个街道打分，表示与其联系和缘分的深浅，分值越高在地图中的颜色越深。同时用户可以为每个街道撰写简述和故事，鼠标悬置在街道的位置时会弹窗显示街道名称和简述，点击后显示街道名称和故事。
 </td>
 </tr>
 </table>
@@ -31,9 +31,9 @@ Translated with DeepL.com (free version)
 | Feature | Description | 描述 |
 | :--- | :--- | :--- |
 | **Dynamic Rendering** | Real-time map generation based on Excel data updates. | 基于 Excel 数据更新的实时地图生成。 |
-| **Thematic Styling** | Choropleth mapping where color intensity reflects "Fate" (connection) scores. | 专题地图样式，颜色深浅反映“缘分”（连接）分值。 |
-| **Rich Interaction** | Hover for metadata summaries; click for comprehensive narratives. | 悬停显示摘要元数据；点击查看完整叙述。 |
-| **Privacy Focused** | Fully local execution ensuring data sovereignty and privacy. | 完全本地执行，确保数据主权与隐私。 |
+| **Thematic Styling** | Choropleth mapping where color intensity reflects "Fate" (connection) scores. | 专题地图样式，颜色深浅反映“缘分”分值。 |
+| **Rich Interaction** | Hover for metadata summaries; click for comprehensive narratives. | 悬停显示摘要；点击查看完整叙述。 |
+| **Privacy Focused** | Fully local execution ensuring data sovereignty and privacy. | 完全本地执行，保护隐私。 |
 
 ---
 
